@@ -1,0 +1,77 @@
+<?php
+/* Phần này dùng để check sự tồn tại của các biến trong trang
+  Nếu biến nào không tồn tại sẽ đặt giá trị mặc định để tránh lỗi */
+?>
+<div class="col-sm-9 padding-right">
+    <div class="features_items"><!--features_items-->
+        <!-- <h2 class="title text-center"></h2> -->
+        <?php 
+        if(!isset($product)||empty($product))
+        {
+            echo '<div class="col-sm-9">
+                <div class="product-image-wrapper" style="text-align: center; padding-top: 90px; color: #000080">
+                    <h1><b>Không tìm thấy sản phẩm</b></h1>
+                </div></div>';
+        }
+ else {
+        foreach ($product as $key => $value): ?>
+            <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <form action="<?php echo $base_url; ?>home/addtocart" method="POST">
+                            <input type="hidden" name="txtId" value="<?php echo $value['id']; ?>" />
+                            <input type="hidden" name="txtPrice" value="<?php 
+                            if ($value['sale_price'] == '0') {
+                                echo $value['price'];
+                            }
+                            else
+                            {
+                                echo $value['sale_price'];
+                            } ?>" />
+                            <input type="hidden" name="txtName" value="<?php echo $value['name']; ?>" />
+                            <div class="productinfo text-center">
+                                <img src="<?php echo $base_url; ?>public/images/products/<?php echo $value['image']; ?>" alt="">
+                                <h2><?php 
+                            if ($value['sale_price'] == '0') {
+                                echo number_format($value['price'], 0, ',', '.').'đ';
+                            }
+                            else
+                            {
+                                echo '<strike>'.number_format($value['price'], 0, ',', '.').'</strike>đ';
+                                echo '<br>'.number_format($value['sale_price'], 0, ',', '.').'đ';
+                            }
+                             ?></h2>
+                                <p><?php echo $value['name']; ?></p>
+                                <button name="isOK" type="submit" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                            </div>
+                            <div class="product-overlay">
+                                <div class="overlay-content">
+                                    <a href="<?php echo $base_url.'home/product/'.$value['id']; ?>">
+                                    <h2><?php 
+                            if ($value['sale_price'] == '0') {
+                                echo number_format($value['price'], 0, ',', '.').'đ';
+                            }
+                            else
+                            {
+                                echo '<strike>'.number_format($value['price'], 0, ',', '.').'</strike>đ';
+                                echo '<br>'.number_format($value['sale_price'], 0, ',', '.').'đ';
+                            }
+                             ?></h2>
+                                    <p><?php echo $value['name']; ?></p>
+                                    <button name="isOK1" type="submit" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+ <?php endforeach; }?>
+        <!--features_items-->
+
+
+
+    </div>
+</div>
+</section>
